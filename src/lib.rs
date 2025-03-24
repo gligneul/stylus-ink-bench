@@ -39,7 +39,10 @@ struct HostioTraceInfo {
 }
 
 /// Parse the method signature and arguments, returning the calldata.
-pub fn generate_calldata(signature: &str, args: Vec<String>) -> Result<Vec<u8>> {
+pub fn generate_calldata<T>(signature: &str, args: &[T]) -> Result<Vec<u8>> 
+where
+    T: AsRef<str>
+{
     let func = Function::parse(signature).wrap_err("failed to parse function signature")?;
 
     // Check args and params len
@@ -59,7 +62,7 @@ pub fn generate_calldata(signature: &str, args: Vec<String>) -> Result<Vec<u8>> 
             .resolve()
             .wrap_err_with(|| format!("could not resolve arg: {param}"))?;
         let value = ty
-            .coerce_str(arg)
+            .coerce_str(arg.as_ref())
             .wrap_err_with(|| format!("could not parse arg: {param}"))?;
         values.push(value);
     }

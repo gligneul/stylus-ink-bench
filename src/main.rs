@@ -50,7 +50,7 @@ async fn main() -> Result<()> {
     let rpc = cli.rpc.parse().wrap_err("failed to parse RPC")?;
     let provider = ProviderBuilder::new().on_http(rpc);
 
-    let calldata = stylus_ink_bench::generate_calldata(&cli.signature, cli.args)?;
+    let calldata = stylus_ink_bench::generate_calldata(&cli.signature, &cli.args)?;
     let tx = stylus_ink_bench::send_tx(&provider, &cli.key, cli.program, calldata).await?;
     let ink = stylus_ink_bench::get_ink_usage(&cli.rpc, &tx).await?;
 
