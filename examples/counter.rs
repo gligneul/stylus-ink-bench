@@ -44,7 +44,7 @@ async fn main() -> Result<()> {
 
     let mut header = vec![Cell::new("Method")];
     for (program_name, _) in programs.iter() {
-        header.push(Cell::new(program_name));
+        header.push(Cell::new(&format!("Counter [{}]", program_name)));
     }
     table.add_row(Row::new(header));
 
